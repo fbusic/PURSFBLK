@@ -1,0 +1,139 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+    color: #222;
+    padding: 20px;
+}
+
+/* NASLOVI */
+h2, h3, h4 {
+    margin-bottom: 10px;
+    color: #1f3a5f;
+}
+
+p {
+    margin-bottom: 8px;
+}
+
+/* HORIZONTALNA LINIJA */
+hr {
+    margin: 25px 0;
+    border: none;
+    border-top: 2px solid #ddd;
+}
+
+/* TABLICE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+table thead {
+    background-color: #1f3a5f;
+    color: #fff;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* STATUS TEKST */
+small {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* PARKING STATUS */
+#parking-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    
+
+#parking-krug {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #333;
+    transform: translateX(1850px);  /* desno */
+}
+}
+
+#parking-tekst {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* LINKOVI */
+a {
+    color: #1f3a5f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* FOOTER / ODJAVA */
+#logout {
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+    text-align: right;
+    font-size: 14px;
+}
+
+#header-title {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    color: #1f3a5f;
+    text-transform: uppercase;
+
+    animation: fadeSlide 1.2s ease-out;
+}
+
+/* suptilna animacija */
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#header-title {
+    animation: fadeSlide 1.2s ease-out, pulse 3s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
