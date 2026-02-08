@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustav Nadzora - Početna</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+   
+    <div id="header-title">
+    Parking Sustav Zagreb
+</div>
+    <p>Autori: Luka Kovač, Filip Bušić</p>
+    <p>Prva stranica </p>
+
+    <hr> <h3>Trenutna osvijetljenost parkinga:</h3>
+    <p>
+      {% if podaci %}
+  {{ podaci[0].svijetlost }} Lux
+{% else %}
+  Nema podataka
+{% endif %}
+    </p>
+    <small>
+        Status: 
+        {% if podaci and podaci[0].svijetlost > 100 %}
+            Dnevno svjetlo / Rasvjeta uključena
+        {% else %}
+            Mrak
+        {% endif %}
+    </small>
+
+    <br><br>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Temperatura</th>
+                <th>Vlaga</th>
+                <th>Ventilator</th>
+                <th>Plin (MQ2)</th>
+                <th>Svjetlo (Lux)</th>
+            </tr>
+        </thead>
+        <tbody>
+
+{% for red in podaci %}
+<tr>
+  <td>{{ red.temperatura }} °C</td>
+  <td>{{ red.vlaznost }} %</td>
+  <td>{{ 'UKLJUČEN' if red.ir_state == 1 else 'ISKLJUČEN' }}</td>
+  <td>
+    <div style="width:20px;height:20px;
+      background-color:{{ 'red' if red.plin > 1000 else 'white' }};
+      border:1px solid black;">
+    </div>
+  </td>
+  <td>{{ red.svijetlost }} lx</td>
+</tr>
+{% endfor %}
+</tbody>
+
+    </table>
+
+    <br>
+<div id="parking-wrapper">
+    <div id="parking-krug"></div>
+    <p id="parking-tekst"></p>
+</div>
+
+    <hr>
+
+    <h2>RFID Sustav Rampe</h2>
+   
+
+    <h4>Ovlaštene kartice</h4>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Vlasnik</th>
+                <th>UID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for k in ovlastene %}
+            <tr>
+                <td>{{ k.vlasnik }}</td>
+                <td><code>{{ k.uid }}</code></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <h4>Povijest ulazaka</h4>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>UID</th>
+                <th>Vrijeme</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in ulasci %}
+            <tr>
+                <td>{{ log.uid }}</td>
+                <td>{{ log.vrijeme_ulaska }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2">Nema logova.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function provjeriParking() {
+            fetch('/api/parking-status')
+                .then(res => res.json())
+                .then(data => {
+                    const krug = document.getElementById('parking-krug');
+                    const tekst = document.getElementById('parking-tekst');
+                    if(data.zauzeto) {
+                        krug.style.backgroundColor = 'red';
+                        tekst.innerText = 'Mjesto Zauzeto';
+                    } else {
+                        krug.style.backgroundColor = 'green';
+                        tekst.innerText = 'Mjesto Slobodno';
+                    }
+                });
+        }
+        setInterval(provjeriParking, 2000);
+        provjeriParking();
+    </script>
+     <p>Korisnik: <b>{{ user }}</b> | <a href="/logout">Odjava</a></p>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stranica za prijavu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <img src="/static/logo.png" class="logo">
+     <h2>Prijava u sustav</h2>
+     {% if error %}
+        <p style="color: red;">{{ error }}</p>
+     {% endif %}
+     <form action="/login" method="POST">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Prijavi se</button>
+    </form>
+</body>
+</html>
